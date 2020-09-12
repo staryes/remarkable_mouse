@@ -92,7 +92,7 @@ def main():
         args = parser.parse_args()
 
         remote_device = open_remote_device(args)
-
+        
         if args.debug:
             logging.getLogger('').setLevel(logging.DEBUG)
             log.setLevel(logging.DEBUG)

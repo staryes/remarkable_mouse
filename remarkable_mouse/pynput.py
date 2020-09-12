@@ -1,6 +1,7 @@
 import logging
 import struct
 from screeninfo import get_monitors
+from screeninfo import Monitor
 
 logging.basicConfig(format='%(message)s')
 log = logging.getLogger(__name__)
@@ -67,7 +68,13 @@ def read_tablet(args, remote_device):
 
     mouse = Controller()
 
-    monitor = get_monitors()[args.monitor]
+#    monitor = get_monitors()[args.monitor]
+    monitor = Monitor(
+            x=0,
+            y=0,
+            width=1920,
+            height=1080
+        )
     log.debug('Chose monitor: {}'.format(monitor))
 
     while True:
