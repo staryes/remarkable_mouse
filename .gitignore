@@ -3,3 +3,4 @@ dist/
 remarkable_mouse.egg-info
 **/__pycache__
 build/
+TAGS
