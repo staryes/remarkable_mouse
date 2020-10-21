@@ -1,6 +1,6 @@
 import logging
 import struct
-from screeninfo import get_monitors
+#from screeninfo import get_monitors
 from screeninfo import Monitor
 
 logging.basicConfig(format='%(message)s')
@@ -43,7 +43,8 @@ def remap(x, y, wacom_width, wacom_height, monitor_width,
     elif orientation == 'top':
         x = wacom_width - x
 
-    ratio_width, ratio_height = monitor_width / wacom_width, monitor_height / wacom_height
+    ratio_width, ratio_height = monitor_width / \
+        wacom_width, monitor_height / wacom_height
 
     if mode == 'fill':
         scaling = max(ratio_width, ratio_height)
@@ -69,16 +70,20 @@ def read_tablet(args, remote_device):
     mouse = Controller()
 
 #    monitor = get_monitors()[args.monitor]
-    monitor = Monitor(
-            x=0,
-            y=0,
-            width=1920,
-            height=1080
-        )
+    monitorlist = [Monitor(x=0, y=0, width=1920, height=1080, width_mm=None, height_mm=None, name=None), Monitor(x=0, y=0, width=1280, height=800, width_mm=None, height_mm=None, name=None), Monitor(
+        x=1280, y=0, width=1920, height=1080, width_mm=None, height_mm=None, name=None)]
+    # monitor = Monitor(
+    #         x=0,
+    #         y=0,
+    #         width=1920,
+    #         height=1080
+    #    )
+    monitor = monitorlist[args.monitor]
     log.debug('Chose monitor: {}'.format(monitor))
 
     while True:
-        _, _, e_type, e_code, e_value = struct.unpack('2IHHi', remote_device.read(16))
+        _, _, e_type, e_code, e_value = struct.unpack(
+            '2IHHi', remote_device.read(16))
 
         if e_type == e_type_abs:
 
@@ -107,7 +112,6 @@ def read_tablet(args, remote_device):
                         log.debug('RELEASE')
                         lifted = True
                         mouse.release(Button.left)
-
 
             # only move when x and y are updated for smoother mouse
             if new_x and new_y:
